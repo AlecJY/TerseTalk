@@ -14,6 +14,6 @@ public class BriefTalk {
 
         }
 
-
+        LoginWindow loginWindow = new LoginWindow();
     }
 }
