@@ -1,5 +1,6 @@
 package com.alec.brieftalk;
 
+import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.java7.Java7SmackInitializer;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;

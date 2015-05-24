@@ -69,10 +69,16 @@ public class LoginWindow extends JFrame{
                 } else {
                     int x = getX() + getWidth() / 2;
                     int y = getY() + getHeight() / 2;
+                    //TODO Fix SwingWorker
                     //new LoginStatus(x, y).execute();
+                    //TODO Fix XMPP SSL ISSUE
                     xmppControl.init(serverIP.getText(), username.getText(), String.copyValueOf(password.getPassword()));
-                    System.out.println(xmppControl.connect());
-                    System.out.println(xmppControl.login());
+                    if (xmppControl.connect()) {
+                        if (xmppControl.login()) {
+                            System.out.println("Successful Login");
+                            setVisible(false);
+                        }
+                    }
                 }
             }
         });
