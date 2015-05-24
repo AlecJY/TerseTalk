@@ -12,9 +12,9 @@ public class LoginWindow extends JFrame{
     private JComboBox serverChoice;
     private JTextField serverIP;
     private JTextField username;
-    private JTextField password;
-    private JButton loginButton;
+    private JButton LoginButton;
     private JPanel panel;
+    private JPasswordField password;
 
     public LoginWindow() {
 
