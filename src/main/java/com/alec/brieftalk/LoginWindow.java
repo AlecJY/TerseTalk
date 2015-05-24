@@ -2,8 +2,11 @@ package com.alec.brieftalk;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ResourceBundle;
 
 /**
  * Created by Alec on 2015/5/24.
@@ -12,22 +15,27 @@ public class LoginWindow extends JFrame{
     private JComboBox serverChoice;
     private JTextField serverIP;
     private JTextField username;
-    private JButton LoginButton;
+    private JButton loginButton;
     private JPanel panel;
     private JPasswordField password;
+    private JLabel warning;
 
     public LoginWindow() {
-
+        ResourceBundle lang = ResourceBundle.getBundle("lang/BriefTalk");
+        setTitle("Login - BriefTalk");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setUndecorated(true);
         setLayout(new BorderLayout());
+        getRootPane().setDefaultButton(loginButton);
         add(panel);
         pack();
 
         serverChoice.setSelectedItem("Facebook");
         serverIP.setVisible(false);
         username.enableInputMethods(false);
+
+        setVisible(true);
 
         serverChoice.addItemListener(new ItemListener() {
             @Override
@@ -43,6 +51,22 @@ public class LoginWindow extends JFrame{
             }
         });
 
-        setVisible(true);
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (serverChoice.getSelectedItem().equals("Other") && serverIP.getText().equals("")) {
+                    warning.setText(lang.getString("loginwindow.emptyserverip"));
+                } else if (username.getText().equals("")) {
+                    warning.setText(lang.getString("loginwindow.emptyusername"));
+                } else if (password.getPassword().length == 0) {
+                    warning.setText(lang.getString("loginwindow.emptypassword"));
+                } else {
+                    int x = getX() + getWidth() / 2;
+                    int y = getY() + getHeight() / 2;
+                    new LoginStatus(x, y).execute();
+                    System.out.println("test");
+                }
+            }
+        });
     }
 }
