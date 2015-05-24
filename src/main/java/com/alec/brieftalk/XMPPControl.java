@@ -11,10 +11,10 @@ public class XMPPControl {
     private XMPPTCPConnection connection;
     private XMPPTCPConnectionConfiguration config;
 
-    public void init(String server, String username, char[] password) {
+    public void init(String server, String username, String password) {
         config = XMPPTCPConnectionConfiguration.builder()
                 .setServiceName(server)
-                .setUsernameAndPassword(username, password.toString())
+                .setUsernameAndPassword(username, password)
                 .build();
         connection = new XMPPTCPConnection(config);
         new Java7SmackInitializer().initialize();

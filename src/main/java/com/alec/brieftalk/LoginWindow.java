@@ -70,7 +70,7 @@ public class LoginWindow extends JFrame{
                     int x = getX() + getWidth() / 2;
                     int y = getY() + getHeight() / 2;
                     //new LoginStatus(x, y).execute();
-                    xmppControl.init(serverIP.getText(), username.getText(), password.getPassword());
+                    xmppControl.init(serverIP.getText(), username.getText(), String.copyValueOf(password.getPassword()));
                     System.out.println(xmppControl.connect());
                     System.out.println(xmppControl.login());
                 }
