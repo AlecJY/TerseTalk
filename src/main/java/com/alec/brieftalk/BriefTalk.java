@@ -13,8 +13,8 @@ public class BriefTalk {
         } catch (Exception e) {
 
         }
-
-        LoginWindow loginWindow = new LoginWindow();
+        XMPPControl xmppControl = new XMPPControl();
+        LoginWindow loginWindow = new LoginWindow(xmppControl);
 
     }
 }
