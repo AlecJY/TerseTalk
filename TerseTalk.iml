@@ -26,5 +26,14 @@
     <orderEntry type="library" exported="" name="Gradle: org.igniterealtime.smack:smack-sasl-javax:4.1.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.jxmpp:jxmpp-util-cache:0.4.2-beta1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.igniterealtime.smack:smack-sasl-provided:4.1.1" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library name="Gradle: darcula">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/darcula.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

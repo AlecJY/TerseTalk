@@ -1,7 +1,8 @@
 package com.alec.ttalk;
 
+import com.bulenkov.darcula.DarculaLaf;
+
 import javax.swing.*;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 /**
  * Created by Alec on 2015/5/24.
@@ -9,7 +10,7 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 public class TerseTalk {
     public static void main(String[] args) {
         try {
-            UIManager.setLookAndFeel(new NimbusLookAndFeel());
+            UIManager.setLookAndFeel(new DarculaLaf());
         } catch (Exception e) {
 
         }

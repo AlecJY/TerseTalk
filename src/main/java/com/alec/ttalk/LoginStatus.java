@@ -14,7 +14,7 @@ public class LoginStatus extends SwingWorker{
         return null;
     }
     public LoginStatus(int x, int y) {
-        ResourceBundle lang = ResourceBundle.getBundle("lang/BriefTalk");
+        ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk");
 
         JPanel panel = new JPanel();
         JLabel connecting = new JLabel(lang.getString("loginstatus.connecting"));

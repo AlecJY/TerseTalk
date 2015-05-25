@@ -21,7 +21,7 @@ public class LoginWindow extends JFrame{
     private JLabel warning;
 
     public LoginWindow(final XMPPControl xmppControl) {
-        final ResourceBundle lang = ResourceBundle.getBundle("lang/BriefTalk");
+        final ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk");
         setTitle("Login - BriefTalk");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
