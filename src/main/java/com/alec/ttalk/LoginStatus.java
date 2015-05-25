@@ -1,4 +1,4 @@
-package com.alec.brieftalk;
+package com.alec.ttalk;
 
 import javax.swing.*;
 import java.awt.*;

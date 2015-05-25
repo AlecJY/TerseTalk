@@ -1,4 +1,4 @@
-group 'com.alec.brieftalk'
+group 'com.alec.ttalk'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BriefTalk.iml" filepath="$PROJECT_DIR$/BriefTalk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TerseTalk.iml" filepath="$PROJECT_DIR$/TerseTalk.iml" />
     </modules>
   </component>
 </project>

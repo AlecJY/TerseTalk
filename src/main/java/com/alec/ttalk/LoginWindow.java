@@ -1,4 +1,4 @@
-package com.alec.brieftalk;
+package com.alec.ttalk;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,8 +20,8 @@ public class LoginWindow extends JFrame{
     private JPasswordField password;
     private JLabel warning;
 
-    public LoginWindow(XMPPControl xmppControl) {
-        ResourceBundle lang = ResourceBundle.getBundle("lang/BriefTalk");
+    public LoginWindow(final XMPPControl xmppControl) {
+        final ResourceBundle lang = ResourceBundle.getBundle("lang/BriefTalk");
         setTitle("Login - BriefTalk");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

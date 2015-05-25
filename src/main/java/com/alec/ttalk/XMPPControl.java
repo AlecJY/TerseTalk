@@ -1,4 +1,4 @@
-package com.alec.brieftalk;
+package com.alec.ttalk;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.java7.Java7SmackInitializer;
