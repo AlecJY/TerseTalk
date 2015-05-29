@@ -33,7 +33,7 @@ public class MotionPanel extends JPanel{
         actionPane.add(cancelButton);
 
         add(actionPane, BorderLayout.EAST);
-        add(new JLabel("         TerseTalk"));
+        add(new JLabel("         " + parent.getTitle()));
 
 
         addMouseListener(new MouseAdapter() {
