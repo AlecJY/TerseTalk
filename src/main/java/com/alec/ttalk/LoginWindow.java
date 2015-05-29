@@ -19,15 +19,18 @@ public class LoginWindow extends JFrame{
     private JPanel panel;
     private JPasswordField password;
     private JLabel warning;
+    private JCheckBox rememberCheckBox;
+    private JCheckBox autologinCheckBox;
 
     public LoginWindow(final XMPPControl xmppControl) {
         final ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk");
-        setTitle("Login - BriefTalk");
+        setTitle("Login - TerseTalk");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setUndecorated(true);
         setLayout(new BorderLayout());
         getRootPane().setDefaultButton(loginButton);
+        add(new MotionPanel(this), BorderLayout.NORTH);
         add(panel);
         pack();
 
