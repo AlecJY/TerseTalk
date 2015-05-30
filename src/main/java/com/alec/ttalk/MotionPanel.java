@@ -15,6 +15,7 @@ public class MotionPanel extends JPanel{
     public MotionPanel(final JFrame parent, int mode){
         this.parent = parent;
         setLayout(new BorderLayout());
+        parent.setIconImage(Toolkit.getDefaultToolkit().createImage(getClass().getClassLoader().getResource("image/tTalk.png"))); // set application's icon
 
         JPanel actionPane = new JPanel();
         ImageIcon closeIcon = new ImageIcon(getClass().getClassLoader().getResource("image/close.png"));
@@ -34,13 +35,13 @@ public class MotionPanel extends JPanel{
 
         closeButton.addActionListener(e -> System.exit(0));
         iconifiedButton.addActionListener(e -> iconifiedWindow());
-        if (mode > 1) {
+        if (mode > 1) { // add iconified button
             actionPane.add(iconifiedButton);
         }
         actionPane.add(closeButton);
 
         add(actionPane, BorderLayout.EAST);
-        add(new JLabel("         " + parent.getTitle()));
+        add(new JLabel("         " + parent.getTitle())); // add title
 
 
         addMouseListener(new MouseAdapter() {
@@ -72,6 +73,6 @@ public class MotionPanel extends JPanel{
 
     private void iconifiedWindow() {
         parent.setExtendedState(Frame.ICONIFIED);
-    }
+    } // make window iconified
 
 }

@@ -10,12 +10,12 @@ import javax.swing.*;
 public class TerseTalk {
     public static void main(String[] args) {
         try {
-            UIManager.setLookAndFeel(new DarculaLaf());
+            UIManager.setLookAndFeel(new DarculaLaf()); // set look and feel to Darcula look and feel
         } catch (Exception e) {
 
         }
         XMPPControl xmppControl = new XMPPControl();
-        LoginWindow loginWindow = new LoginWindow(xmppControl);
+        LoginWindow loginWindow = new LoginWindow(xmppControl); // add login window
 
     }
 }

@@ -23,21 +23,21 @@ public class LoginWindow extends JFrame{
     private JCheckBox autologinCheckBox;
 
     public LoginWindow(final XMPPControl xmppControl) {
-        final ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk");
+        final ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk"); // load lang
         setTitle("Login - TerseTalk");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setUndecorated(true);
         setLayout(new BorderLayout());
         getRootPane().setDefaultButton(loginButton);
-        add(new MotionPanel(this, 2), BorderLayout.NORTH);
+        add(new MotionPanel(this, 2), BorderLayout.NORTH); //  add a title bar
         add(panel);
         pack();
 
-        serverChoice.setSelectedItem("Facebook");
-        serverIP.setText("chat.facebook.com");
-        serverIP.setVisible(false);
-        username.enableInputMethods(false);
+        serverChoice.setSelectedItem("Facebook"); // set default server option
+        serverIP.setText("chat.facebook.com"); // set default server
+        serverIP.setVisible(false); // set server column invisible
+        username.enableInputMethods(false); // set username disable im
         if (!rememberCheckBox.isSelected()) {
             autologinCheckBox.setEnabled(false);
         }
@@ -46,7 +46,7 @@ public class LoginWindow extends JFrame{
 
         serverChoice.addItemListener(new ItemListener() {
             @Override
-            public void itemStateChanged(ItemEvent e) {
+            public void itemStateChanged(ItemEvent e) { // set change server option action
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     if (e.getItem().equals("Other")) {
                         serverIP.setText("");
@@ -63,7 +63,7 @@ public class LoginWindow extends JFrame{
             }
         });
 
-        loginButton.addActionListener(new ActionListener() {
+        loginButton.addActionListener(new ActionListener() { // set login action
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (serverIP.getText().equals("")) {
@@ -80,13 +80,14 @@ public class LoginWindow extends JFrame{
                 }
             }
         });
-        rememberCheckBox.addItemListener(new ItemListener() {
+        rememberCheckBox.addItemListener(new ItemListener() { //set remember checkbox action
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (rememberCheckBox.isSelected()) {
                     autologinCheckBox.setEnabled(true);
                 } else {
                     autologinCheckBox.setEnabled(false);
+                    autologinCheckBox.setSelected(false);
                 }
             }
         });
