@@ -12,25 +12,32 @@ public class MotionPanel extends JPanel{
     private Point initialClick;
     private JFrame parent;
 
-    public MotionPanel(final JFrame parent){
+    public MotionPanel(final JFrame parent, int mode){
         this.parent = parent;
         setLayout(new BorderLayout());
 
         JPanel actionPane = new JPanel();
-        ImageIcon cancelIcon = new ImageIcon(getClass().getClassLoader().getResource("pic/cancel.png"));
-        ImageIcon hideIcon = new ImageIcon(getClass().getClassLoader().getResource("pic/hide.png"));
-        JButton cancelButton = new JButton(cancelIcon);
-        JButton hideButton = new JButton(hideIcon);
-        cancelButton.setBorder(BorderFactory.createEmptyBorder());
-        cancelButton.setContentAreaFilled(false);
-        hideButton.setBorder(BorderFactory.createEmptyBorder());
-        hideButton.setContentAreaFilled(false);
+        ImageIcon closeIcon = new ImageIcon(getClass().getClassLoader().getResource("image/close.png"));
+        ImageIcon closeMouseIcon = new ImageIcon(getClass().getClassLoader().getResource("image/close_mouse.png"));
+        ImageIcon iconifiedIcon = new ImageIcon(getClass().getClassLoader().getResource("image/iconified.png"));
+        ImageIcon iconifiedMouseIcon = new ImageIcon(getClass().getClassLoader().getResource("image/iconified_mouse.png"));
+        JButton closeButton = new JButton(closeIcon);
+        JButton iconifiedButton = new JButton(iconifiedIcon);
+        closeButton.setRolloverIcon(closeMouseIcon);
+        closeButton.setPressedIcon(closeMouseIcon);
+        closeButton.setBorder(BorderFactory.createEmptyBorder());
+        closeButton.setContentAreaFilled(false);
+        iconifiedButton.setRolloverIcon(iconifiedMouseIcon);
+        iconifiedButton.setPressedIcon(iconifiedMouseIcon);
+        iconifiedButton.setBorder(BorderFactory.createEmptyBorder());
+        iconifiedButton.setContentAreaFilled(false);
 
-        cancelButton.addActionListener(e -> System.exit(0));
-        hideButton.addActionListener(e -> hideWindow());
-
-        actionPane.add(hideButton);
-        actionPane.add(cancelButton);
+        closeButton.addActionListener(e -> System.exit(0));
+        iconifiedButton.addActionListener(e -> iconifiedWindow());
+        if (mode > 1) {
+            actionPane.add(iconifiedButton);
+        }
+        actionPane.add(closeButton);
 
         add(actionPane, BorderLayout.EAST);
         add(new JLabel("         " + parent.getTitle()));
@@ -63,7 +70,7 @@ public class MotionPanel extends JPanel{
         });
     }
 
-    private void hideWindow() {
+    private void iconifiedWindow() {
         parent.setExtendedState(Frame.ICONIFIED);
     }
 

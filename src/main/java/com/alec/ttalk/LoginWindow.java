@@ -30,7 +30,7 @@ public class LoginWindow extends JFrame{
         setUndecorated(true);
         setLayout(new BorderLayout());
         getRootPane().setDefaultButton(loginButton);
-        add(new MotionPanel(this), BorderLayout.NORTH);
+        add(new MotionPanel(this, 2), BorderLayout.NORTH);
         add(panel);
         pack();
 
@@ -38,6 +38,9 @@ public class LoginWindow extends JFrame{
         serverIP.setText("chat.facebook.com");
         serverIP.setVisible(false);
         username.enableInputMethods(false);
+        if (!rememberCheckBox.isSelected()) {
+            autologinCheckBox.setEnabled(false);
+        }
 
         setVisible(true);
 
@@ -72,16 +75,18 @@ public class LoginWindow extends JFrame{
                 } else {
                     int x = getX() + getWidth() / 2;
                     int y = getY() + getHeight() / 2;
-                    //TODO Fix SwingWorker
-                    //new LoginStatus(x, y).execute();
+                    new LoginStatus(x, y);
                     //TODO Fix XMPP SSL ISSUE
-                    xmppControl.init(serverIP.getText(), username.getText(), String.copyValueOf(password.getPassword()));
-                    if (xmppControl.connect()) {
-                        if (xmppControl.login()) {
-                            System.out.println("Successful Login");
-                            setVisible(false);
-                        }
-                    }
+                }
+            }
+        });
+        rememberCheckBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (rememberCheckBox.isSelected()) {
+                    autologinCheckBox.setEnabled(true);
+                } else {
+                    autologinCheckBox.setEnabled(false);
                 }
             }
         });
