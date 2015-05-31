@@ -21,6 +21,7 @@ public class LoginWindow extends JFrame{
     private JLabel warning;
     private JCheckBox rememberCheckBox;
     private JCheckBox autologinCheckBox;
+    private JFrame thisFrame = this;
 
     public LoginWindow() {
         final ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk"); // load lang
@@ -75,8 +76,8 @@ public class LoginWindow extends JFrame{
                 } else {
                     int x = getX() + getWidth() / 2;
                     int y = getY() + getHeight() / 2;
-                    TerseTalk.xmppControl.init(serverIP.getText(), username.getText(), password.getPassword().toString());
-                    new LoginStatus(x, y);
+                    TerseTalk.xmppControl.init(serverIP.getText(), username.getText(), String.copyValueOf(password.getPassword()));
+                    new LoginStatus(x, y, thisFrame);
                     //TODO Fix XMPP SSL ISSUE
                 }
             }

@@ -1,5 +1,7 @@
 package com.alec.ttalk;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ResourceBundle;
@@ -9,21 +11,22 @@ import java.util.ResourceBundle;
  */
 public class LoginStatus {
     private ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk"); //  load lang
+    private JFrame parent;
     private JDialog dialog = new JDialog();
     private JLabel status = new JLabel(lang.getString("loginstatus.connecting"));
     private int x , y;
 
     private XMPPControl xmppControl = TerseTalk.xmppControl;
 
-    public LoginStatus(int x, int y) {
+    public LoginStatus(int x, int y, JFrame parent) {
         this.x = x;
         this.y = y;
+        this.parent = parent;
 
         JPanel panel = new JPanel();
         JProgressBar progressBar = new JProgressBar();
         dialog.setUndecorated(true);
         dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        dialog.setLocation(x-75, y-50);
         dialog.setLayout(new BorderLayout());
         dialog.setModal(true);
 
@@ -36,6 +39,7 @@ public class LoginStatus {
 
         dialog.add(panel);
         dialog.pack();
+        dialog.setLocation(x - dialog.getWidth()/2, y - dialog.getHeight()/2);
 
         Connect connect = new Connect();
         connect.execute();
@@ -43,57 +47,46 @@ public class LoginStatus {
         dialog.setVisible(true);
     }
 
-    private void errorDialog(String errMsg) {
-        JDialog error = new JDialog();
-        JPanel errorPane = new JPanel(new GridBagLayout());
-        JPanel mainPane = new JPanel(new BorderLayout());
-        JLabel msg = new JLabel(errMsg);
-        JButton okButton = new JButton(lang.getString("okbutton"));
-        GridBagConstraints g = new GridBagConstraints();
 
-        okButton.addActionListener(e -> error.dispose());
-
-        errorPane.setBorder(BorderFactory.createEmptyBorder(10, 60, 10, 60));
-        g.gridx = 0;
-        g.gridy = 0;
-        g.anchor = GridBagConstraints.CENTER;
-        errorPane.add(msg, g);
-        g.gridy = 1;
-        errorPane.add(okButton, g);
-
-        error.setTitle("Login Error - TerseTalk");
-        error.setModal(true);
-        error.setLocation(x - 75, y - 50);
-        error.setUndecorated(true);
-
-        mainPane.setBorder(BorderFactory.createLineBorder(new Color(97, 101, 104)));
-        mainPane.add(new DialogTitleBar(error), BorderLayout.NORTH);
-        mainPane.add(errorPane);
-
-        error.add(mainPane);
-        error.getRootPane().setDefaultButton(okButton);
-        error.pack();
-
-        error.setVisible(true);
-    }
 
     private class Connect extends SwingWorker<Void, Void> {
-        boolean isConnected = false;
+        boolean isConnected;
 
         @Override
-        public Void doInBackground() {
+        public Void doInBackground() throws Exception {
             isConnected = xmppControl.connect();
             return null;
         }
 
         @Override
         public void done() {
-            if (isConnected) {
+            if (!isConnected) {
                 dialog.dispose();
-                errorDialog("Connecting to Server failed");
+                new MessageBox(lang.getString("loginstatus.errortitle"), lang.getString("loginstatus.connectionfailed"), x, y);
 
             } else {
                 status.setText(lang.getString("loginstatus.login"));
+                (new Login()).execute();
+            }
+        }
+    }
+
+    private class Login extends SwingWorker<Void, Void> {
+        boolean isLogin;
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            isLogin = xmppControl.login();
+            return null;
+        }
+
+        @Override
+        public void done() {
+            if (!isLogin) {
+                dialog.dispose();
+                new MessageBox(lang.getString("loginstatus.errortitle"), lang.getString("loginstatus.loginfailed"), x, y);
+            } else {
+                parent.dispose();
             }
         }
     }
