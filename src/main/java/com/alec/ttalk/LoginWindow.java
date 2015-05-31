@@ -22,7 +22,7 @@ public class LoginWindow extends JFrame{
     private JCheckBox rememberCheckBox;
     private JCheckBox autologinCheckBox;
 
-    public LoginWindow(final XMPPControl xmppControl) {
+    public LoginWindow() {
         final ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk"); // load lang
         setTitle("Login - TerseTalk");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -30,7 +30,7 @@ public class LoginWindow extends JFrame{
         setUndecorated(true);
         setLayout(new BorderLayout());
         getRootPane().setDefaultButton(loginButton);
-        add(new MotionPanel(this, 2), BorderLayout.NORTH); //  add a title bar
+        add(new FrameTitleBar(this, 2), BorderLayout.NORTH); //  add a title bar
         add(panel);
         pack();
 
@@ -75,6 +75,7 @@ public class LoginWindow extends JFrame{
                 } else {
                     int x = getX() + getWidth() / 2;
                     int y = getY() + getHeight() / 2;
+                    TerseTalk.xmppControl.init(serverIP.getText(), username.getText(), password.getPassword().toString());
                     new LoginStatus(x, y);
                     //TODO Fix XMPP SSL ISSUE
                 }

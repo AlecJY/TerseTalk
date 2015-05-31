@@ -8,11 +8,11 @@ import java.awt.event.MouseMotionAdapter;
 
 // get from http://stackoverflow.com/questions/10773713/moving-undecorated-window-by-clicking-on-jpanel
 
-public class MotionPanel extends JPanel{
+public class FrameTitleBar extends JPanel{
     private Point initialClick;
     private JFrame parent;
 
-    public MotionPanel(final JFrame parent, int mode){
+    public FrameTitleBar(final JFrame parent, int mode){
         this.parent = parent;
         setLayout(new BorderLayout());
         parent.setIconImage(Toolkit.getDefaultToolkit().createImage(getClass().getClassLoader().getResource("image/tTalk.png"))); // set application's icon
