@@ -1,4 +1,8 @@
-package com.alec.ttalk;
+package com.alec.ttalk.login;
+
+import com.alec.ttalk.common.FrameTitleBar;
+import com.alec.ttalk.TerseTalk;
+import com.alec.ttalk.struct.WindowLocation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -68,11 +72,11 @@ public class LoginWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (serverIP.getText().equals("")) {
-                    warning.setText(lang.getString("loginwindow.emptyserverip"));
+                    warning.setText(lang.getString("LoginWindow.emptyServerIP"));
                 } else if (username.getText().equals("")) {
-                    warning.setText(lang.getString("loginwindow.emptyusername"));
+                    warning.setText(lang.getString("LoginWindow.emptyUsername"));
                 } else if (password.getPassword().length == 0) {
-                    warning.setText(lang.getString("loginwindow.emptypassword"));
+                    warning.setText(lang.getString("LoginWindow.emptyPassword"));
                 } else {
                     int x = getX() + getWidth() / 2;
                     int y = getY() + getHeight() / 2;
@@ -93,5 +97,13 @@ public class LoginWindow extends JFrame{
                 }
             }
         });
+    }
+
+    public WindowLocation windowXY() {
+        WindowLocation windowLocation = new WindowLocation();
+
+        windowLocation.x = getX() + getWidth() / 2;
+        windowLocation.y = getY() + getHeight() / 2;
+        return windowLocation;
     }
 }

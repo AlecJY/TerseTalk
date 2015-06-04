@@ -1,5 +1,8 @@
 package com.alec.ttalk;
 
+import com.alec.ttalk.common.XMPPControl;
+import com.alec.ttalk.login.LoginWindow;
+import com.alec.ttalk.struct.WindowLocation;
 import com.bulenkov.darcula.DarculaLaf;
 
 import javax.swing.*;
@@ -16,6 +19,9 @@ public class TerseTalk {
 
         }
         LoginWindow loginWindow = new LoginWindow(); // add login window
+
+        WindowLocation XY = loginWindow.windowXY(); // record login window's location
+
 
     }
 }

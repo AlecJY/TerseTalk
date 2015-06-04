@@ -1,6 +1,9 @@
-package com.alec.ttalk;
+package com.alec.ttalk.login;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+
+import com.alec.ttalk.common.MessageBox;
+import com.alec.ttalk.TerseTalk;
+import com.alec.ttalk.common.XMPPControl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +16,7 @@ public class LoginStatus {
     private ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk"); //  load lang
     private JFrame parent;
     private JDialog dialog = new JDialog();
-    private JLabel status = new JLabel(lang.getString("loginstatus.connecting"));
+    private JLabel status = new JLabel(lang.getString("LoginStatus.connecting"));
     private int x , y;
 
     private XMPPControl xmppControl = TerseTalk.xmppControl;
@@ -61,11 +64,22 @@ public class LoginStatus {
         @Override
         public void done() {
             if (!isConnected) {
-                dialog.dispose();
-                new MessageBox(lang.getString("loginstatus.errortitle"), lang.getString("loginstatus.connectionfailed"), x, y);
+                if (!xmppControl.isSSLCert()) {
+                    MessageBox disableSSLCert =  new MessageBox(lang.getString("LoginStatus.warningTitle"), lang.getString("LoginStatus.disableSSLCert"), x, y, 2);
+                    if (disableSSLCert.choice()) {
+                        xmppControl.disableSSLCert();
+                        (new Connect()).execute();
+                    } else {
+                        dialog.dispose();
+                        new MessageBox(lang.getString("LoginStatus.errorTitle"), lang.getString("LoginStatus.connectionFailed"), x, y, 1);
+                    }
+                } else {
+                    dialog.dispose();
+                    new MessageBox(lang.getString("LoginStatus.errorTitle"), lang.getString("LoginStatus.connectionFailed"), x, y, 1);
+                }
 
             } else {
-                status.setText(lang.getString("loginstatus.login"));
+                status.setText(lang.getString("LoginStatus.login"));
                 (new Login()).execute();
             }
         }
@@ -84,9 +98,10 @@ public class LoginStatus {
         public void done() {
             if (!isLogin) {
                 dialog.dispose();
-                new MessageBox(lang.getString("loginstatus.errortitle"), lang.getString("loginstatus.loginfailed"), x, y);
+                new MessageBox(lang.getString("LoginStatus.errorTitle"), lang.getString("LoginStatus.loginFailed"), x, y, 1);
             } else {
                 parent.dispose();
+                dialog.dispose();
             }
         }
     }
