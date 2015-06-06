@@ -1,18 +1,31 @@
 package com.alec.ttalk.common;
 
+import com.alec.ttalk.struct.UserInfo;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.java7.Java7SmackInitializer;
+import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.roster.Roster;
+import org.jivesoftware.smack.roster.RosterEntry;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+import org.jivesoftware.smackx.vcardtemp.VCardManager;
+import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
 import javax.net.ssl.SSLHandshakeException;
+import javax.swing.*;
+import java.util.Collection;
+import java.util.HashMap;
 
 /**
  * Created by Alec on 2015/5/24.
  */
 public class XMPPControl {
+    public HashMap<String, UserInfo> friends = new HashMap();
+
     private boolean sslCert = true;
+    private int friendNum = 0;
+    private int friendLoaddProgress = 0;
 
     private XMPPTCPConnection connection;
     private XMPPTCPConnectionConfiguration config;
@@ -29,7 +42,9 @@ public class XMPPControl {
     public boolean connect() {
         try {
             connection.connect();
+            sslCert = true;
         } catch (SmackException e) {
+            e.printStackTrace();
             if (e.getCause() instanceof SSLHandshakeException) { // if ssh certified failed
                 sslCert = false;
             }
@@ -56,6 +71,44 @@ public class XMPPControl {
                 .build();
         config = noCertConfig;
         connection = new XMPPTCPConnection(config);
+    }
+
+    public void getFriendList() {
+        Roster roster = Roster.getInstanceFor(connection);
+        try {
+            if (!roster.isLoaded()) {
+                roster.reloadAndWait();
+            }
+
+            Collection<RosterEntry> entries = roster.getEntries();
+            friendNum = entries.size();
+            friendLoaddProgress = 0;
+            for (RosterEntry entry: entries) {
+                try {
+                    friendLoaddProgress++;
+                    Presence presence = roster.getPresence(entry.getUser());
+                    //TODO fix vcard load too slow issue
+                    VCard vCard = VCardManager.getInstanceFor(connection).loadVCard(entry.getUser());
+                    friends.put(entry.getUser(), new UserInfo());
+                    friends.get(entry.getUser()).jid = entry.getUser();
+                    friends.get(entry.getUser()).name = entry.getName();
+                    friends.get(entry.getUser()).status = presence.getType();
+                    //friends.get(entry.getUser()).avatar = new ImageIcon(vCard.getAvatar());
+                } catch (Throwable t) {
+                }
+            }
+        } catch (Throwable t) {
+            System.out.println("hello");
+            t.printStackTrace();
+        }
+    }
+
+    public int getFriendNum() {
+        return friendNum;
+    }
+
+    public int getFriendLoadProgress() {
+        return friendLoaddProgress;
     }
 
     public boolean isSSLCert() {

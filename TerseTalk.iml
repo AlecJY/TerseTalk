@@ -36,5 +36,6 @@
     </orderEntry>
     <orderEntry type="library" exported="" name="Gradle: org.json:json:20141113" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.h2database:h2:1.4.187" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.igniterealtime.smack:smack-extensions:4.1.1" level="project" />
   </component>
 </module>

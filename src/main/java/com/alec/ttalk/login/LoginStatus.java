@@ -4,6 +4,8 @@ package com.alec.ttalk.login;
 import com.alec.ttalk.common.MessageBox;
 import com.alec.ttalk.TerseTalk;
 import com.alec.ttalk.common.XMPPControl;
+import com.alec.ttalk.main.FriendsListStatus;
+import com.alec.ttalk.main.MainWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -102,6 +104,7 @@ public class LoginStatus {
             } else {
                 parent.dispose();
                 dialog.dispose();
+                new MainWindow();
             }
         }
     }

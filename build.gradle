@@ -17,6 +17,7 @@ dependencies {
     compile 'org.igniterealtime.smack:smack-im:4.1.1'
     compile 'org.igniterealtime.smack:smack-sasl-javax:4.1.1'
     compile 'org.igniterealtime.smack:smack-java7:4.1.1'
+    compile 'org.igniterealtime.smack:smack-extensions:4.1.1'
     compile 'org.json:json:20141113'
     compile 'com.h2database:h2:1.4.187'
     compile files('libs/darcula.jar')
