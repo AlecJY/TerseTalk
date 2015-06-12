@@ -11,5 +11,6 @@ public class UserInfo {
     public String jid;
     public String name;
     public Presence.Type status;
+    public String avatarURL = "image/avatar_default.png";
     public ImageIcon avatar;
 }

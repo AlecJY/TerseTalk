@@ -9,11 +9,8 @@ import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.roster.RosterEntry;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
-import org.jivesoftware.smackx.vcardtemp.VCardManager;
-import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
 import javax.net.ssl.SSLHandshakeException;
-import javax.swing.*;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -25,7 +22,7 @@ public class XMPPControl {
 
     private boolean sslCert = true;
     private int friendNum = 0;
-    private int friendLoaddProgress = 0;
+    private int friendLoadProgress = 0;
 
     private XMPPTCPConnection connection;
     private XMPPTCPConnectionConfiguration config;
@@ -82,13 +79,14 @@ public class XMPPControl {
 
             Collection<RosterEntry> entries = roster.getEntries();
             friendNum = entries.size();
-            friendLoaddProgress = 0;
+            friendLoadProgress = 0;
+            friends.clear();
             for (RosterEntry entry: entries) {
                 try {
-                    friendLoaddProgress++;
+                    friendLoadProgress++;
                     Presence presence = roster.getPresence(entry.getUser());
                     //TODO fix vcard load too slow issue
-                    VCard vCard = VCardManager.getInstanceFor(connection).loadVCard(entry.getUser());
+                    //VCard vCard = VCardManager.getInstanceFor(connection).loadVCard(entry.getUser());
                     friends.put(entry.getUser(), new UserInfo());
                     friends.get(entry.getUser()).jid = entry.getUser();
                     friends.get(entry.getUser()).name = entry.getName();
@@ -98,7 +96,6 @@ public class XMPPControl {
                 }
             }
         } catch (Throwable t) {
-            System.out.println("hello");
             t.printStackTrace();
         }
     }
@@ -108,7 +105,7 @@ public class XMPPControl {
     }
 
     public int getFriendLoadProgress() {
-        return friendLoaddProgress;
+        return friendLoadProgress;
     }
 
     public boolean isSSLCert() {

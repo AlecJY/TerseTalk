@@ -1,10 +1,14 @@
 package com.alec.ttalk.main;
 
+import com.alec.ttalk.TerseTalk;
 import com.alec.ttalk.about.AboutWindow;
 import com.alec.ttalk.common.FrameTitleBar;
+import com.alec.ttalk.common.XMPPControl;
+import com.alec.ttalk.struct.UserInfo;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -13,6 +17,9 @@ import java.util.ResourceBundle;
 public class MainWindow extends JFrame{
     private JMenuBar menuBar = new JMenuBar();
     private ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk"); // load lang
+    private XMPPControl xmppControl = TerseTalk.xmppControl;
+    private FriendListPane friendListPane = new FriendListPane();
+    private JScrollPane listPane = new JScrollPane();
 
     public MainWindow() {
         setTitle("TerseTalk");
@@ -27,7 +34,12 @@ public class MainWindow extends JFrame{
         northPane.add(new FrameTitleBar(this, 2));
         northPane.add(menuBar);
 
+        refreshFriends();
+
+        listPane.add(friendListPane);
+
         add(northPane, BorderLayout.NORTH);
+        add(listPane);
         pack();
         setVisible(true);
     }
@@ -50,5 +62,23 @@ public class MainWindow extends JFrame{
 
         menuBar.add(file);
         menuBar.add(help);
+    }
+
+    private void refreshFriends() {
+        (new RefreshFriendList()).execute();
+    }
+
+    private class RefreshFriendList extends SwingWorker {
+        @Override
+        protected Object doInBackground() throws Exception {
+            while (true) {
+                xmppControl.getFriendList();
+                for (Object key : xmppControl.friends.keySet()) {
+                    friendListPane.addElement(xmppControl.friends.get(key));
+                }
+                friendListPane.showList();
+                Thread.sleep(10000);
+            }
+        }
     }
 }
