@@ -1,3 +1,5 @@
+//decrypt
+
 package com.alec.ttalk.main;
 
 import com.alec.ttalk.struct.UserInfo;
@@ -44,6 +46,7 @@ public class FriendListPane extends JPanel{
         for (int i = 0; i < showInfo.size(); i++) {
             //model.addElement(showInfo.get(i));
         }
+        friendList.setListData(friendInfo.toArray(new String[0]));
         this.revalidate();
     }
 

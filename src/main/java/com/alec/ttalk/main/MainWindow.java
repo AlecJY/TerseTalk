@@ -4,11 +4,9 @@ import com.alec.ttalk.TerseTalk;
 import com.alec.ttalk.about.AboutWindow;
 import com.alec.ttalk.common.FrameTitleBar;
 import com.alec.ttalk.common.XMPPControl;
-import com.alec.ttalk.struct.UserInfo;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -18,8 +16,7 @@ public class MainWindow extends JFrame{
     private JMenuBar menuBar = new JMenuBar();
     private ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk"); // load lang
     private XMPPControl xmppControl = TerseTalk.xmppControl;
-    private FriendListPane friendListPane = new FriendListPane();
-    private JScrollPane listPane = new JScrollPane();
+    private FriendListScrollPane friendListScrollPane = new FriendListScrollPane();
 
     public MainWindow() {
         setTitle("TerseTalk");
@@ -36,10 +33,8 @@ public class MainWindow extends JFrame{
 
         refreshFriends();
 
-        listPane.add(friendListPane);
-
         add(northPane, BorderLayout.NORTH);
-        add(listPane);
+        add(friendListScrollPane);
         pack();
         setVisible(true);
     }
@@ -71,12 +66,18 @@ public class MainWindow extends JFrame{
     private class RefreshFriendList extends SwingWorker {
         @Override
         protected Object doInBackground() throws Exception {
+            int lastFriendNum = 0;
             while (true) {
                 xmppControl.getFriendList();
-                for (Object key : xmppControl.friends.keySet()) {
-                    friendListPane.addElement(xmppControl.friends.get(key));
+                if (lastFriendNum != xmppControl.getFriendNum()) {
+                    lastFriendNum = xmppControl.getFriendNum();
+                    friendListScrollPane.cleanFriend();
+                    for (Object key : xmppControl.friends.keySet()) {
+                        friendListScrollPane.addFriend(xmppControl.friends.get(key));
+                    }
+                    friendListScrollPane.showList();
                 }
-                friendListPane.showList();
+
                 Thread.sleep(10000);
             }
         }
