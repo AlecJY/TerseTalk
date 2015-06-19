@@ -12,6 +12,6 @@ public class UserInfo {
     public String jid;
     public String name;
     public Presence.Type status;
-    public URL avatarURL;
-    public ImageIcon avatar;
+    public byte[] avatarLocation;
+    public ImageIcon avatar = new ImageIcon(getClass().getClassLoader().getResource("image/avatar_default.png"));
 }

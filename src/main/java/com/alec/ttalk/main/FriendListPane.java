@@ -31,7 +31,7 @@ public class FriendListPane extends JPanel{
                 "<html>" +
                         "<table>" +
                             "<tr>" +
-                                "<td><img src=" + info.avatarURL + "></img></td>" +
+                                "<td><img src=" + info.avatarLocation + "></img></td>" +
                             "</tr>"+
                             "<tr>"+
                                 "<td><center><strong>" +info.name + "</strong></center></td>" +

@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Alec on 2015/6/6.
  */
-public class MainWindow extends JFrame{
+public class MainWindow extends JFrame {
     private JMenuBar menuBar = new JMenuBar();
     private ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk"); // load lang
     private XMPPControl xmppControl = TerseTalk.xmppControl;
@@ -66,19 +66,41 @@ public class MainWindow extends JFrame{
     private class RefreshFriendList extends SwingWorker {
         @Override
         protected Object doInBackground() throws Exception {
-            int lastFriendNum = 0;
+            boolean isAvatarSwingWorkerStart = false;
             while (true) {
                 xmppControl.getFriendList();
-                if (lastFriendNum != xmppControl.getFriendNum()) {
-                    lastFriendNum = xmppControl.getFriendNum();
-                    friendListScrollPane.cleanFriend();
-                    for (Object key : xmppControl.friends.keySet()) {
-                        friendListScrollPane.addFriend(xmppControl.friends.get(key));
-                    }
-                    friendListScrollPane.showList();
+                friendListScrollPane.cleanFriend();
+                for (Object key : xmppControl.friends.keySet()) {
+                    friendListScrollPane.addFriend(xmppControl.friends.get(key));
                 }
-
+                friendListScrollPane.showList();
+                if (!isAvatarSwingWorkerStart) {
+                    (new RefreshAvatars()).execute();
+                }
                 Thread.sleep(10000);
+            }
+        }
+    }
+
+    private class RefreshAvatars extends SwingWorker {
+        @Override
+        protected Object doInBackground() throws Exception {
+            int loadCount;
+            while (true) {
+                loadCount = 0;
+                for (Object key : xmppControl.friends.keySet()) {
+                    xmppControl.getAvatar(key.toString());
+                    loadCount++;
+                    //TODO fix refresh issue
+                    /*if (loadCount % 10 == 0 || loadCount == xmppControl.getFriendNum()) {
+                        friendListScrollPane.cleanFriend();
+                        for (Object loadKey : xmppControl.friends.keySet()) {
+                            friendListScrollPane.addFriend(xmppControl.friends.get(loadKey));
+                        }
+                        friendListScrollPane.showList();
+                    }*/
+                }
+                Thread.sleep(20000);
             }
         }
     }

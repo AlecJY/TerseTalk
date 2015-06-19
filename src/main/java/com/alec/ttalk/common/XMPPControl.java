@@ -3,14 +3,18 @@ package com.alec.ttalk.common;
 import com.alec.ttalk.struct.UserInfo;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.java7.Java7SmackInitializer;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.roster.RosterEntry;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+import org.jivesoftware.smackx.vcardtemp.VCardManager;
+import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
 import javax.net.ssl.SSLHandshakeException;
+import javax.swing.*;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -80,21 +84,32 @@ public class XMPPControl {
             Collection<RosterEntry> entries = roster.getEntries();
             friendNum = entries.size();
             friendLoadProgress = 0;
-            friends.clear();
             for (RosterEntry entry: entries) {
                 try {
                     friendLoadProgress++;
                     Presence presence = roster.getPresence(entry.getUser());
-                    //TODO fix vcard load too slow issue
-                    //VCard vCard = VCardManager.getInstanceFor(connection).loadVCard(entry.getUser());
-                    friends.put(entry.getUser(), new UserInfo());
+                    if (friends.get(entry.getUser()) == null) {
+                        friends.put(entry.getUser(), new UserInfo());
+                    }
                     friends.get(entry.getUser()).jid = entry.getUser();
                     friends.get(entry.getUser()).name = entry.getName();
                     friends.get(entry.getUser()).status = presence.getType();
-                    //friends.get(entry.getUser()).avatar = new ImageIcon(vCard.getAvatar());
                 } catch (Throwable t) {
                 }
             }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    public void getAvatar(String jid) {
+        try {
+            if (friends.get(jid).avatarLocation == null) {
+                VCard vCard = VCardManager.getInstanceFor(connection).loadVCard(jid);
+                friends.get(jid).avatarLocation = vCard.getAvatar();
+                friends.get(jid).avatar = new ImageIcon(vCard.getAvatar());
+            }
+        } catch (XMPPException.XMPPErrorException e) {
         } catch (Throwable t) {
             t.printStackTrace();
         }

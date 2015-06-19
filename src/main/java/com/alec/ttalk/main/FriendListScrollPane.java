@@ -1,10 +1,15 @@
 package com.alec.ttalk.main;
 
+import com.alec.ttalk.chat.ChatWindow;
 import com.alec.ttalk.struct.UserInfo;
+import org.jivesoftware.smack.packet.Presence;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 /**
  * Created by Alec on 2015/6/12.
@@ -14,29 +19,52 @@ public class FriendListScrollPane extends JPanel{
     private JList friendList;
     private JScrollPane scrollPane;
 
+    private ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk"); // load lang
     private ArrayList<Object[]> friendInfo = new ArrayList<>();
 
     public FriendListScrollPane() {
         friendList.setCellRenderer(new FriendListCellRender());
         setLayout(new BorderLayout());
         add(friendPanel, BorderLayout.CENTER);
+
+        friendList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getClickCount() >= 2) {
+                    Point mousePoint = new Point(e.getX(), e.getY());
+                    String jid = (String) friendInfo.get(friendList.locationToIndex(mousePoint))[2];
+                    new ChatWindow(jid);
+                }
+            }
+        });
     }
+
 
     public void cleanFriend() {
         friendInfo.clear();
     }
 
     public void addFriend(UserInfo info) {
+        Object infoArray[] = new Object[3];
         if (info.name.isEmpty()) {
             info.name = info.jid;
         }
 
-        Object infoArray[] = {new ImageIcon(getClass().getClassLoader().getResource("image/avatar_default.png")), info.name};
+        infoArray[0] = info.avatar;
+        if (info.status == Presence.Type.available) {
+            infoArray[1] = "<html>" + info.name + "<p><font color=green>" + lang.getString("online") + "</font><p></html>";
+        }
+        else {
+            infoArray[1] = "<html>" + info.name + "<p><font color=gray>" + lang.getString("offline") + "</font></p></html>";
+        }
+        infoArray[2] = info.jid;
         friendInfo.add(infoArray);
     }
 
     public void showList() {
         if (!friendInfo.isEmpty()) {
+            friendList.setListData(friendInfo.toArray());
             friendList.setListData(friendInfo.toArray());
         }
     }
