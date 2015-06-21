@@ -1,17 +1,25 @@
 package com.alec.ttalk.common;
 
+import com.alec.ttalk.TerseTalk;
 import com.alec.ttalk.struct.UserInfo;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.chat.Chat;
+import org.jivesoftware.smack.chat.ChatManager;
+import org.jivesoftware.smack.chat.ChatManagerListener;
+import org.jivesoftware.smack.chat.ChatMessageListener;
 import org.jivesoftware.smack.java7.Java7SmackInitializer;
+import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.roster.RosterEntry;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+import org.jivesoftware.smack.util.StringUtils;
 import org.jivesoftware.smackx.vcardtemp.VCardManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
+import org.jxmpp.util.XmppStringUtils;
 
 import javax.net.ssl.SSLHandshakeException;
 import javax.swing.*;
@@ -113,6 +121,54 @@ public class XMPPControl {
         } catch (Throwable t) {
             t.printStackTrace();
         }
+    }
+
+    public void startListener() {
+        ChatManager.getInstanceFor(connection).addChatListener(new ChatManagerListener() {
+            @Override
+            public void chatCreated(Chat chat, boolean createdLocally) {
+                chat.addMessageListener(new ChatMessageListener() {
+                    @Override
+                    public void processMessage(Chat chat, Message message) {
+                        TerseTalk.chatWindowManager.createWindow(chat.getParticipant());
+                        if (message.getBody() == null) {
+                            TerseTalk.chatWindowManager.getChatWindow(chat.getParticipant()).setTyping();
+                        } else {
+                            TerseTalk.chatWindowManager.getChatWindow(chat.getParticipant()).addMessage(message.getBody());
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    public void sendMessage(String jid, String message) {
+        Chat chat = ChatManager.getInstanceFor(connection).createChat(jid);
+        try {
+            chat.sendMessage(message);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    public UserInfo getUserInfo(String jid) {
+        UserInfo info = new UserInfo();
+        Presence presence = Roster.getInstanceFor(connection).getPresence(jid);
+        info.status = presence.getType();
+        info.jid = jid;
+        try {
+            VCard vCard = VCardManager.getInstanceFor(connection).loadVCard(jid);
+            try {
+                info.name = vCard.getNickName();
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+            info.avatarLocation = vCard.getAvatar();
+            info.avatar = new ImageIcon(vCard.getAvatar());
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return info;
     }
 
     public int getFriendNum() {

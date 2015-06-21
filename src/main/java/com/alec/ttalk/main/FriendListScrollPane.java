@@ -1,5 +1,6 @@
 package com.alec.ttalk.main;
 
+import com.alec.ttalk.TerseTalk;
 import com.alec.ttalk.chat.ChatWindow;
 import com.alec.ttalk.struct.UserInfo;
 import org.jivesoftware.smack.packet.Presence;
@@ -34,7 +35,7 @@ public class FriendListScrollPane extends JPanel{
                 if (e.getClickCount() >= 2) {
                     Point mousePoint = new Point(e.getX(), e.getY());
                     String jid = (String) friendInfo.get(friendList.locationToIndex(mousePoint))[2];
-                    new ChatWindow(jid);
+                    TerseTalk.chatWindowManager.createWindow(jid);
                 }
             }
         });
