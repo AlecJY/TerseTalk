@@ -35,8 +35,8 @@ public class ChatWindow extends JFrame {
 
         JPanel infoPane = new JPanel();
         infoPane.add(new JLabel(new ImageIcon()));
-        //TODO fix titlepane
-        titlePane.add(infoPane);
+        //TODO fix infoPane
+        //titlePane.add(infoPane);
 
         add(panel);
         pack();
