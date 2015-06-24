@@ -6,12 +6,14 @@ import com.alec.ttalk.struct.UserInfo;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.io.File;
 import java.util.ResourceBundle;
 
 /**
@@ -106,6 +108,15 @@ public class ChatWindow extends JFrame {
         messageScrollPane.revalidate();
         scroll = true;
         (new ScrollFix()).execute();
+        try {
+            AudioInputStream sound = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResourceAsStream("sound/alert.aif"));
+            DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
+            Clip clip = (Clip) AudioSystem.getLine(info);
+            clip.open(sound);
+            clip.start();
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
     }
 
     public void setTyping() {

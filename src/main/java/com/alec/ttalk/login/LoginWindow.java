@@ -87,7 +87,6 @@ public class LoginWindow extends JFrame {
                     int y = getY() + getHeight() / 2;
                     TerseTalk.xmppControl.init(serverIP.getText(), username.getText(), String.copyValueOf(password.getPassword()));
                     new LoginStatus(x, y, thisFrame);
-                    //TODO Fix XMPP SSL ISSUE
                 }
             }
         });
