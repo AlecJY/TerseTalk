@@ -23,6 +23,7 @@ import org.jxmpp.util.XmppStringUtils;
 
 import javax.net.ssl.SSLHandshakeException;
 import javax.swing.*;
+import java.security.cert.CertificateException;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -54,7 +55,7 @@ public class XMPPControl {
             sslCert = true;
         } catch (SmackException e) {
             e.printStackTrace();
-            if (e.getCause() instanceof SSLHandshakeException) { // if ssh certified failed
+            if (e.getCause() instanceof SSLHandshakeException || e.getCause() instanceof CertificateException) { // if ssh certified failed
                 sslCert = false;
             }
         } catch (Throwable t) {
@@ -157,14 +158,32 @@ public class XMPPControl {
         info.status = presence.getType();
         info.jid = jid;
         try {
+            Roster roster = Roster.getInstanceFor(connection);
+            RosterEntry entry = roster.getEntry(jid);
+            info.name = entry.getName();
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        try {
             VCard vCard = VCardManager.getInstanceFor(connection).loadVCard(jid);
-            try {
-                info.name = vCard.getNickName();
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
             info.avatarLocation = vCard.getAvatar();
             info.avatar = new ImageIcon(vCard.getAvatar());
+        } catch (XMPPException.XMPPErrorException e) {
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return info;
+    }
+
+    public UserInfo getLightUserInfo(String jid) {
+        UserInfo info = new UserInfo();
+        Presence presence = Roster.getInstanceFor(connection).getPresence(jid);
+        info.status = presence.getType();
+        info.jid = jid;
+        try {
+            Roster roster = Roster.getInstanceFor(connection);
+            RosterEntry entry = roster.getEntry(jid);
+            info.name = entry.getName();
         } catch (Throwable t) {
             t.printStackTrace();
         }

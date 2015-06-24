@@ -61,7 +61,7 @@ public class LoginWindow extends JFrame{
                         serverIP.setVisible(false);
                     }
                     else {
-                        serverIP.setText("talk.google.com");
+                        serverIP.setText("gmail.com");
                         serverIP.setVisible(false);
                     }
                 }
