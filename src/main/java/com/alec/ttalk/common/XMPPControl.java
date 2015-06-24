@@ -2,9 +2,7 @@ package com.alec.ttalk.common;
 
 import com.alec.ttalk.TerseTalk;
 import com.alec.ttalk.struct.UserInfo;
-import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.*;
 import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.chat.ChatManager;
 import org.jivesoftware.smack.chat.ChatManagerListener;
@@ -188,6 +186,46 @@ public class XMPPControl {
             t.printStackTrace();
         }
         return info;
+    }
+
+    public void startConnectionListener() {
+        RemainConnection remainConnection = new RemainConnection();
+        connection.addConnectionListener(new ConnectionListener() {
+            @Override
+            public void connected(XMPPConnection connection) {
+
+            }
+
+            @Override
+            public void authenticated(XMPPConnection connection, boolean resumed) {
+
+            }
+
+            @Override
+            public void connectionClosed() {
+
+            }
+
+            @Override
+            public void connectionClosedOnError(Exception e) {
+
+            }
+
+            @Override
+            public void reconnectionSuccessful() {
+
+            }
+
+            @Override
+            public void reconnectingIn(int seconds) {
+
+            }
+
+            @Override
+            public void reconnectionFailed(Exception e) {
+
+            }
+        });
     }
 
     public int getFriendNum() {

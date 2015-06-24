@@ -44,7 +44,7 @@ public class MainWindow extends JFrame {
         JMenu file = new JMenu(lang.getString("menu.file"));
         JMenuItem preference = new JMenuItem(lang.getString("menu.file.preference"));
         JMenuItem exit = new JMenuItem(lang.getString("menu.file.exit"));
-        file.add(preference);
+        //file.add(preference);
         file.add(exit);
 
 
@@ -54,7 +54,7 @@ public class MainWindow extends JFrame {
         JMenuItem about = new JMenuItem(lang.getString("menu.help.about"));
         help.add(about);
 
-        about.addActionListener(e -> new AboutWindow());
+        about.addActionListener(e -> new AboutWindow(this));
 
         menuBar.add(file);
         menuBar.add(help);

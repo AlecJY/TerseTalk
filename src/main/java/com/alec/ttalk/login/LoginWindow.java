@@ -42,6 +42,9 @@ public class LoginWindow extends JFrame {
         add(panel);
         pack();
 
+        rememberCheckBox.setVisible(false);
+        autologinCheckBox.setVisible(false);
+
         serverChoice.setSelectedItem("Facebook"); // set default server option
         serverIP.setText("chat.facebook.com"); // set default server
         serverIP.setVisible(false); // set server column invisible
@@ -154,6 +157,7 @@ public class LoginWindow extends JFrame {
         username = new JTextField();
         panel2.add(username, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label3 = new JLabel();
+        label3.setEnabled(true);
         this.$$$loadLabelText$$$(label3, ResourceBundle.getBundle("lang/tTalk").getString("LoginWindow.username"));
         panel2.add(label3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, new Dimension(30, -1), null, null, 0, false));
         final JLabel label4 = new JLabel();

@@ -97,6 +97,7 @@
               </grid>
             </constraints>
             <properties>
+              <enabled value="true"/>
               <text resource-bundle="lang/tTalk" key="LoginWindow.username"/>
             </properties>
           </component>

@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.util.ResourceBundle;
 
 /**
@@ -25,7 +27,6 @@ public class ChatWindow extends JFrame {
 
     private JPanel messagePane = new JPanel();
     private JScrollPane messageScrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    private JScrollBar verticalScrollBar = messageScrollPane.getVerticalScrollBar();
     private JTextPane messageArea = new JTextPane();
 
     private String jid;
@@ -34,6 +35,7 @@ public class ChatWindow extends JFrame {
     private int messageCounter = 0;
     private UserInfo info;
     private ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk"); // load lang
+    private boolean scroll = false;
 
     public ChatWindow(String jid) {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -42,6 +44,15 @@ public class ChatWindow extends JFrame {
         setLayout(new BorderLayout());
         setIconImage(Toolkit.getDefaultToolkit().createImage(getClass().getClassLoader().getResource("image/tTalk.png")));
         getRootPane().setDefaultButton(sendButton);
+
+        messageScrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                if (scroll == true) {
+                    e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+                    scroll = false;
+                }
+            }
+        });
 
         this.jid = jid;
 
@@ -79,29 +90,26 @@ public class ChatWindow extends JFrame {
         });
     }
 
-    public void scrollToBottom() {
-        verticalScrollBar.setValue(verticalScrollBar.getMaximum());
-    }
-
     public void sendMessage() {
+        scroll = true;
         xmppControl.sendMessage(jid, message.getText());
         messageString = messageString + "<font color=\"#66B3FF\">You: </font>" + message.getText() + "<br/>";
         messageArea.setText(messageString + "</html>");
         messagePane.revalidate();
-        scrollToBottom();
         message.setText(null);
     }
 
     public void addMessage(String message) {
-        setDefaultButton();
+        scroll = true;
         messageString = messageString + "<font color=\"#B15BFF\">" + info.name + ": </font>" + message + "<br/>";
         messageArea.setText(messageString + "</html>");
-        messagePane.revalidate();
-        scrollToBottom();
+        messageScrollPane.revalidate();
+        scroll = true;
+        (new ScrollFix()).execute();
     }
 
     public void setTyping() {
-        setDefaultButton();
+        scroll = true;
         if (isTyping == false) {
             isTyping = true;
             messageArea.setText(messageString + "<font color=\"#EAC100\">" + info.name + lang.getString("ChatWindow.typing") + "</font></html>");
@@ -109,12 +117,17 @@ public class ChatWindow extends JFrame {
             isTyping = false;
             messageArea.setText(messageString + "</html>");
         }
-        messagePane.revalidate();
-        scrollToBottom();
+        messageScrollPane.revalidate();
+        scroll = true;
+        (new ScrollFix()).execute();
     }
 
     public void setDefaultButton() {
         getRootPane().setDefaultButton(sendButton);
+    }
+
+    public void scroll() {
+        messageScrollPane.getVerticalScrollBar().setValue(messageScrollPane.getVerticalScrollBar().getMaximum());
     }
 
     {
@@ -183,4 +196,14 @@ public class ChatWindow extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return panel;
     }
+
+    private class ScrollFix extends SwingWorker<Void, Void> {
+        @Override
+        protected Void doInBackground() throws Exception {
+            Thread.sleep(50);
+            scroll = true;
+            return null;
+        }
+    }
+
 }
