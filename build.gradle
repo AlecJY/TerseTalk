@@ -3,7 +3,7 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -19,4 +19,14 @@ dependencies {
     compile 'org.igniterealtime.smack:smack-java7:4.1.1'
     compile 'org.igniterealtime.smack:smack-extensions:4.1.1'
     compile files('libs/darcula.jar')
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "com.alec.ttalk.TerseTalk"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }

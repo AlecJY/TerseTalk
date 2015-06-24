@@ -41,7 +41,7 @@ public class ChatWindowTitleBar extends JPanel{
         iconifiedButton.setBorder(BorderFactory.createEmptyBorder());
         iconifiedButton.setContentAreaFilled(false);
 
-        closeButton.addActionListener(e -> parent.dispose());
+        closeButton.addActionListener(e -> parent.setVisible(false));
         iconifiedButton.addActionListener(e -> iconifiedWindow());
         if (mode > 1) { // add iconified button
             actionPane.add(iconifiedButton);
