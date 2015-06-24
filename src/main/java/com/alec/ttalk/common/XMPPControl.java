@@ -34,6 +34,7 @@ public class XMPPControl {
     private boolean sslCert = true;
     private int friendNum = 0;
     private int friendLoadProgress = 0;
+    private boolean lostConnection = false;
 
     private XMPPTCPConnection connection;
     private XMPPTCPConnectionConfiguration config;
@@ -189,7 +190,7 @@ public class XMPPControl {
     }
 
     public void startConnectionListener() {
-        RemainConnection remainConnection = new RemainConnection();
+        ReconnectionManager.getInstanceFor(connection).enableAutomaticReconnection();
         connection.addConnectionListener(new ConnectionListener() {
             @Override
             public void connected(XMPPConnection connection) {
@@ -208,17 +209,19 @@ public class XMPPControl {
 
             @Override
             public void connectionClosedOnError(Exception e) {
-
+                if (!lostConnection) {
+                    new ConnectionMessage(0);
+                    lostConnection = true;
+                }
             }
 
             @Override
             public void reconnectionSuccessful() {
-
+                new ConnectionMessage(1);
             }
 
             @Override
             public void reconnectingIn(int seconds) {
-
             }
 
             @Override
@@ -234,6 +237,10 @@ public class XMPPControl {
 
     public int getFriendLoadProgress() {
         return friendLoadProgress;
+    }
+
+    public String getJabberID() {
+        return connection.getUser();
     }
 
     public boolean isSSLCert() {

@@ -52,7 +52,11 @@ public class MessageBox {
         dialog.add(mainPane);
         dialog.getRootPane().setDefaultButton(okButton);
         dialog.pack();
-        dialog.setLocation(x - dialog.getWidth()/2, y - dialog.getHeight()/2);
+        if (mode == 3) {
+            dialog.setLocationRelativeTo(null);
+        } else {
+            dialog.setLocation(x - dialog.getWidth() / 2, y - dialog.getHeight() / 2);
+        }
 
         dialog.setVisible(true);
     }

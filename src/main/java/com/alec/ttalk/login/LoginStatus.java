@@ -104,6 +104,7 @@ public class LoginStatus {
                 parent.dispose();
                 dialog.dispose();
                 new MainWindow();
+                xmppControl.startConnectionListener();
             }
         }
     }
