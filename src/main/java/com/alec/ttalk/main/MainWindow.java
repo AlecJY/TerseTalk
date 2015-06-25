@@ -29,7 +29,6 @@ public class MainWindow extends JFrame {
 
         JPanel northPane = new JPanel(new GridLayout(2, 1));
         northPane.add(new FrameTitleBar(this, 2));
-        northPane.add(menuBar);
 
         xmppControl.startListener();
         refreshFriends();
@@ -89,7 +88,6 @@ public class MainWindow extends JFrame {
             while (true) {
                 for (Object key : xmppControl.friends.keySet()) {
                     xmppControl.getAvatar(key.toString());
-                    //TODO fix refresh issue
                     /*if (loadCount % 10 == 0 || loadCount == xmppControl.getFriendNum()) {
                         friendListScrollPane.cleanFriend();
                         for (Object loadKey : xmppControl.friends.keySet()) {
