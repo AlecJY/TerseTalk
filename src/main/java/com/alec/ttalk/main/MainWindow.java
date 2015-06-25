@@ -29,6 +29,7 @@ public class MainWindow extends JFrame {
 
         JPanel northPane = new JPanel(new GridLayout(2, 1));
         northPane.add(new FrameTitleBar(this, 2));
+        northPane.add(menuBar);
 
         xmppControl.startListener();
         refreshFriends();
