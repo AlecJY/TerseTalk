@@ -2,6 +2,7 @@ package com.alec.ttalk.main;
 
 import com.alec.ttalk.TerseTalk;
 import com.alec.ttalk.about.AboutWindow;
+import com.alec.ttalk.autotalk.AutoTalk;
 import com.alec.ttalk.common.FrameTitleBar;
 import com.alec.ttalk.common.XMPPControl;
 
@@ -43,11 +44,13 @@ public class MainWindow extends JFrame {
     private void menu() {
         JMenu file = new JMenu(lang.getString("menu.file"));
         JMenuItem preference = new JMenuItem(lang.getString("menu.file.preference"));
+        JMenuItem autoTalk = new JMenuItem(lang.getString("menu.file.autoTalk"));
         JMenuItem exit = new JMenuItem(lang.getString("menu.file.exit"));
         //file.add(preference);
+        file.add(autoTalk);
         file.add(exit);
 
-
+        autoTalk.addActionListener(e -> new AutoTalk());
         exit.addActionListener(e -> System.exit(0));
 
         JMenu help = new JMenu(lang.getString("menu.help"));
