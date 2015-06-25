@@ -5,6 +5,7 @@ import com.alec.ttalk.common.XMPPControl;
 import com.alec.ttalk.struct.UserInfo;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -22,7 +23,7 @@ import java.util.ResourceBundle;
  */
 public class ChatWindow extends JFrame {
     private JButton sendButton;
-    private JTextField message;
+    private JTextArea message;
     private JPanel panel;
     private JPanel titlePane;
     private JPanel messageMainPane;
@@ -47,6 +48,8 @@ public class ChatWindow extends JFrame {
         setLayout(new BorderLayout());
         setIconImage(Toolkit.getDefaultToolkit().createImage(getClass().getClassLoader().getResource("image/tTalk.png")));
         getRootPane().setDefaultButton(sendButton);
+
+        message.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "doNothing");
 
         messageScrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
             public void adjustmentValueChanged(AdjustmentEvent e) {
@@ -94,12 +97,14 @@ public class ChatWindow extends JFrame {
     }
 
     public void sendMessage() {
-        scroll = true;
-        xmppControl.sendMessage(jid, message.getText());
-        messageString = messageString + "<font color=\"#66B3FF\">You: </font>" + message.getText() + "<br/>";
-        messageArea.setText(messageString + "</html>");
-        messagePane.revalidate();
-        message.setText(null);
+        if (!message.getText().equals("")) {
+            scroll = true;
+            xmppControl.sendMessage(jid, message.getText());
+            messageString = messageString + "<font color=\"#66B3FF\">You: </font>" + message.getText() + "<br/>";
+            messageArea.setText(messageString + "</html>");
+            messagePane.revalidate();
+            message.setText(null);
+        }
     }
 
     public void addMessage(String message) {
@@ -159,7 +164,7 @@ public class ChatWindow extends JFrame {
      */
     private void $$$setupUI$$$() {
         panel = new JPanel();
-        panel.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 10, 0), -1, -1));
         titlePane = new JPanel();
         titlePane.setLayout(new BorderLayout(0, 0));
         panel.add(titlePane, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -169,8 +174,13 @@ public class ChatWindow extends JFrame {
         sendButton = new JButton();
         this.$$$loadButtonText$$$(sendButton, ResourceBundle.getBundle("lang/tTalk").getString("ChatWindow.send"));
         panel1.add(sendButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        message = new JTextField();
-        panel1.add(message, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JScrollPane scrollPane1 = new JScrollPane();
+        scrollPane1.setVerticalScrollBarPolicy(20);
+        panel1.add(scrollPane1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 40), null, 0, false));
+        message = new JTextArea();
+        message.setLineWrap(true);
+        message.setRows(0);
+        scrollPane1.setViewportView(message);
         messageMainPane = new JPanel();
         messageMainPane.setLayout(new BorderLayout(0, 0));
         panel.add(messageMainPane, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(250, 300), new Dimension(250, 300), new Dimension(250, 300), 0, false));
