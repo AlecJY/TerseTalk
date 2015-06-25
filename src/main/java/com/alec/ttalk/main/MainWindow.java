@@ -3,6 +3,7 @@ package com.alec.ttalk.main;
 import com.alec.ttalk.TerseTalk;
 import com.alec.ttalk.about.AboutWindow;
 import com.alec.ttalk.autotalk.AutoTalk;
+import com.alec.ttalk.autotalk.AutoTalkWindow;
 import com.alec.ttalk.common.FrameTitleBar;
 import com.alec.ttalk.common.XMPPControl;
 
@@ -50,7 +51,7 @@ public class MainWindow extends JFrame {
         file.add(autoTalk);
         file.add(exit);
 
-        autoTalk.addActionListener(e -> new AutoTalk());
+        autoTalk.addActionListener(e -> new AutoTalkWindow());
         exit.addActionListener(e -> System.exit(0));
 
         JMenu help = new JMenu(lang.getString("menu.help"));

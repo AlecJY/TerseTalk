@@ -1,11 +1,11 @@
 package com.alec.ttalk.chat;
 
 import com.alec.ttalk.TerseTalk;
+import com.alec.ttalk.autotalk.AutoTalk;
 import com.alec.ttalk.common.XMPPControl;
 import com.alec.ttalk.struct.UserInfo;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -14,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -40,6 +39,9 @@ public class ChatWindow extends JFrame {
     private UserInfo info;
     private ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk"); // load lang
     private boolean scroll = false;
+    private AutoTalk autoTalk;
+    private boolean isAutoTalkCreated = false;
+    private String scriptPath;
 
     public ChatWindow(String jid) {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -107,7 +109,22 @@ public class ChatWindow extends JFrame {
         }
     }
 
+    public void sendAutoTalkMessage(String message) {
+        scroll = true;
+        xmppControl.sendMessage(jid, message);
+        messageString = messageString + "<font color=\"#66B3FF\">You: </font>" + message + "<br/>";
+        messageArea.setText(messageString + "</html>");
+        messagePane.revalidate();
+    }
+
     public void addMessage(String message) {
+        if (xmppControl.isAutoTalkStarted()) {
+            if (!isAutoTalkCreated || !scriptPath.equals(xmppControl.getScriptPath())) {
+                (new createAutoTalk(message)).execute();
+            } else {
+                sendAutoTalkMessage(autoTalk.autoTalkMessage(info.jid, info.name, message));
+            }
+        }
         scroll = true;
         messageString = messageString + "<font color=\"#B15BFF\">" + info.name + ": </font>" + message + "<br/>";
         messageArea.setText(messageString + "</html>");
@@ -226,6 +243,26 @@ public class ChatWindow extends JFrame {
             Thread.sleep(50);
             scroll = true;
             return null;
+        }
+    }
+
+    private class createAutoTalk extends SwingWorker<Void, Void> {
+        String message;
+
+        public createAutoTalk(String message) {
+            this.message = message;
+        }
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            scriptPath = xmppControl.getScriptPath();
+            autoTalk = new AutoTalk(scriptPath);
+            return null;
+        }
+
+        @Override
+        public void done() {
+            sendAutoTalkMessage(autoTalk.autoTalkMessage(info.jid, info.name, message));
         }
     }
 

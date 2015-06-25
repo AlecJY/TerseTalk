@@ -18,6 +18,7 @@ dependencies {
     compile 'org.igniterealtime.smack:smack-sasl-javax:4.1.1'
     compile 'org.igniterealtime.smack:smack-java7:4.1.1'
     compile 'org.igniterealtime.smack:smack-extensions:4.1.1'
+    compile 'org.python:jython-standalone:2.7.0'
     compile files('libs/darcula.jar')
 }
 

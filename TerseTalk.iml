@@ -35,5 +35,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="Gradle: org.igniterealtime.smack:smack-extensions:4.1.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.python:jython-standalone:2.7.0" level="project" />
   </component>
 </module>

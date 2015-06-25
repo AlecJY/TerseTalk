@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.python:jython-standalone:2.7.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.python/jython-standalone/2.7.0/cdfb38bc6f8343bcf1d6accc2e1147e8e7b63b75/jython-standalone-2.7.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.python/jython-standalone/2.7.0/7ffff3853a1c497ea4543849935a5c360d853ee2/jython-standalone-2.7.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

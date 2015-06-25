@@ -35,6 +35,8 @@ public class XMPPControl {
     private int friendNum = 0;
     private int friendLoadProgress = 0;
     private boolean lostConnection = false;
+    private boolean isAutoTalkStarted = false;
+    private String scriptPath;
 
     private XMPPTCPConnection connection;
     private XMPPTCPConnectionConfiguration config;
@@ -253,5 +255,17 @@ public class XMPPControl {
 
     public boolean isAuthenticated() {
         return connection.isAuthenticated();
+    }
+
+    public boolean isAutoTalkStarted() {
+        return isAutoTalkStarted;
+    }
+
+    public String getScriptPath() {
+        return scriptPath;
+    }
+
+    public void setScriptPath(String path) {
+        scriptPath = path;
     }
 }
