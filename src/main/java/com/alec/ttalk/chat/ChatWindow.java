@@ -110,21 +110,16 @@ public class ChatWindow extends JFrame {
     }
 
     public void sendAutoTalkMessage(String message) {
-        scroll = true;
-        xmppControl.sendMessage(jid, message);
-        messageString = messageString + "<font color=\"#66B3FF\">You: </font>" + message + "<br/>";
-        messageArea.setText(messageString + "</html>");
-        messagePane.revalidate();
+        if (message != null) {
+            scroll = true;
+            xmppControl.sendMessage(jid, message);
+            messageString = messageString + "<font color=\"#66B3FF\">You: </font>" + message + "<br/>";
+            messageArea.setText(messageString + "</html>");
+            messagePane.revalidate();
+        }
     }
 
     public void addMessage(String message) {
-        if (xmppControl.isAutoTalkStarted()) {
-            if (!isAutoTalkCreated || !scriptPath.equals(xmppControl.getScriptPath())) {
-                (new createAutoTalk(message)).execute();
-            } else {
-                sendAutoTalkMessage(autoTalk.autoTalkMessage(info.jid, info.name, message));
-            }
-        }
         scroll = true;
         messageString = messageString + "<font color=\"#B15BFF\">" + info.name + ": </font>" + message + "<br/>";
         messageArea.setText(messageString + "</html>");
@@ -140,6 +135,20 @@ public class ChatWindow extends JFrame {
             clip.start();
         } catch (Throwable t) {
             t.printStackTrace();
+        }
+        if (xmppControl.isAutoTalkStarted()) {
+            if (!isAutoTalkCreated || !scriptPath.equals(xmppControl.getScriptPath())) {
+                if (!isAutoTalkCreated) {
+                    (new createAutoTalk(message)).execute();
+                } else {
+                    scriptPath = xmppControl.getScriptPath();
+                    autoTalk = new AutoTalk(scriptPath);
+                    sendAutoTalkMessage(autoTalk.autoTalkMessage(info.jid, info.name, message));
+                }
+                isAutoTalkCreated = true;
+            } else {
+                sendAutoTalkMessage(autoTalk.autoTalkMessage(info.jid, info.name, message));
+            }
         }
     }
 
@@ -181,7 +190,7 @@ public class ChatWindow extends JFrame {
      */
     private void $$$setupUI$$$() {
         panel = new JPanel();
-        panel.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 10, 0), -1, -1));
+        panel.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 8, 0), -1, -1));
         titlePane = new JPanel();
         titlePane.setLayout(new BorderLayout(0, 0));
         panel.add(titlePane, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -257,12 +266,8 @@ public class ChatWindow extends JFrame {
         protected Void doInBackground() throws Exception {
             scriptPath = xmppControl.getScriptPath();
             autoTalk = new AutoTalk(scriptPath);
-            return null;
-        }
-
-        @Override
-        public void done() {
             sendAutoTalkMessage(autoTalk.autoTalkMessage(info.jid, info.name, message));
+            return null;
         }
     }
 

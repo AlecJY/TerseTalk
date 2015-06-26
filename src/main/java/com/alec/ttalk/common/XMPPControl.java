@@ -261,6 +261,10 @@ public class XMPPControl {
         return isAutoTalkStarted;
     }
 
+    public void setAutoTalk(boolean isAutoTalkStarted) {
+        this.isAutoTalkStarted = isAutoTalkStarted;
+    }
+
     public String getScriptPath() {
         return scriptPath;
     }
