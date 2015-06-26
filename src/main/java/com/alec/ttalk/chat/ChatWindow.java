@@ -138,13 +138,9 @@ public class ChatWindow extends JFrame {
         }
         if (xmppControl.isAutoTalkStarted()) {
             if (!isAutoTalkCreated || !scriptPath.equals(xmppControl.getScriptPath())) {
-                if (!isAutoTalkCreated) {
-                    (new createAutoTalk(message)).execute();
-                } else {
-                    scriptPath = xmppControl.getScriptPath();
-                    autoTalk = new AutoTalk(scriptPath);
-                    sendAutoTalkMessage(autoTalk.autoTalkMessage(info.jid, info.name, message));
-                }
+                scriptPath = xmppControl.getScriptPath();
+                autoTalk = new AutoTalk(scriptPath);
+                sendAutoTalkMessage(autoTalk.autoTalkMessage(info.jid, info.name, message));
                 isAutoTalkCreated = true;
             } else {
                 sendAutoTalkMessage(autoTalk.autoTalkMessage(info.jid, info.name, message));
