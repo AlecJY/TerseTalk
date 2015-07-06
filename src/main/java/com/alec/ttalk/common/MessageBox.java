@@ -43,10 +43,7 @@ public class MessageBox {
 
         dialog.setTitle(title);
         dialog.setModal(true);
-        dialog.setUndecorated(true);
 
-        mainPane.setBorder(BorderFactory.createLineBorder(new Color(97, 101, 104)));
-        mainPane.add(new DialogTitleBar(dialog), BorderLayout.NORTH);
         mainPane.add(msgPane);
 
         dialog.add(mainPane);

@@ -1,5 +1,6 @@
 package com.alec.ttalk.chat;
 
+import apple.laf.AquaLookAndFeel;
 import com.alec.ttalk.TerseTalk;
 import com.alec.ttalk.struct.UserInfo;
 import org.jivesoftware.smack.packet.Presence;
@@ -25,29 +26,6 @@ public class ChatWindowTitleBar extends JPanel{
         setLayout(new BorderLayout());
         parent.setIconImage(Toolkit.getDefaultToolkit().createImage(getClass().getClassLoader().getResource("image/tTalk.png"))); // set application's icon
 
-        JPanel actionPane = new JPanel();
-        ImageIcon closeIcon = new ImageIcon(getClass().getClassLoader().getResource("image/close.png"));
-        ImageIcon closeMouseIcon = new ImageIcon(getClass().getClassLoader().getResource("image/close_mouse.png"));
-        ImageIcon iconifiedIcon = new ImageIcon(getClass().getClassLoader().getResource("image/iconified.png"));
-        ImageIcon iconifiedMouseIcon = new ImageIcon(getClass().getClassLoader().getResource("image/iconified_mouse.png"));
-        JButton closeButton = new JButton(closeIcon);
-        JButton iconifiedButton = new JButton(iconifiedIcon);
-        closeButton.setRolloverIcon(closeMouseIcon);
-        closeButton.setPressedIcon(closeMouseIcon);
-        closeButton.setBorder(BorderFactory.createEmptyBorder());
-        closeButton.setContentAreaFilled(false);
-        iconifiedButton.setRolloverIcon(iconifiedMouseIcon);
-        iconifiedButton.setPressedIcon(iconifiedMouseIcon);
-        iconifiedButton.setBorder(BorderFactory.createEmptyBorder());
-        iconifiedButton.setContentAreaFilled(false);
-
-        closeButton.addActionListener(e -> parent.setVisible(false));
-        iconifiedButton.addActionListener(e -> iconifiedWindow());
-        if (mode > 1) { // add iconified button
-            actionPane.add(iconifiedButton);
-        }
-        actionPane.add(closeButton);
-
         JPanel infoPane = new JPanel();
         UserInfo userInfo = TerseTalk.xmppControl.getUserInfo(jid);
         if (userInfo.name == null) {
@@ -63,7 +41,6 @@ public class ChatWindowTitleBar extends JPanel{
         userInfoLabel.setIcon(userInfo.avatar);
         infoPane.add(userInfoLabel);
 
-        add(actionPane, BorderLayout.EAST);
         add(infoPane, BorderLayout.WEST); // add user info
 
 

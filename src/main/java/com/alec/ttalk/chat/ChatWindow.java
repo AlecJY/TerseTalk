@@ -27,6 +27,7 @@ public class ChatWindow extends JFrame {
     private JPanel panel;
     private JPanel titlePane;
     private JPanel messageMainPane;
+    private JPanel mainPane;
     private XMPPControl xmppControl = TerseTalk.xmppControl;
 
     private JPanel messagePane = new JPanel();
@@ -44,7 +45,6 @@ public class ChatWindow extends JFrame {
     public ChatWindow(String jid) {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setUndecorated(true);
         setLayout(new BorderLayout());
         setIconImage(Toolkit.getDefaultToolkit().createImage(getClass().getClassLoader().getResource("image/tTalk.png")));
         getRootPane().setDefaultButton(sendButton);
@@ -164,13 +164,19 @@ public class ChatWindow extends JFrame {
      */
     private void $$$setupUI$$$() {
         panel = new JPanel();
-        panel.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 10, 0), -1, -1));
+        panel.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 6, 0), -1, -1));
         titlePane = new JPanel();
         titlePane.setLayout(new BorderLayout(0, 0));
         panel.add(titlePane, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        mainPane = new JPanel();
+        mainPane.setLayout(new GridLayoutManager(2, 1, new Insets(0, 2, 0, 2), -1, -1));
+        panel.add(mainPane, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        messageMainPane = new JPanel();
+        messageMainPane.setLayout(new BorderLayout(0, 0));
+        mainPane.add(messageMainPane, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(250, 300), null, 0, false));
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
-        panel.add(panel1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        mainPane.add(panel1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         sendButton = new JButton();
         this.$$$loadButtonText$$$(sendButton, ResourceBundle.getBundle("lang/tTalk").getString("ChatWindow.send"));
         panel1.add(sendButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -181,9 +187,6 @@ public class ChatWindow extends JFrame {
         message.setLineWrap(true);
         message.setRows(0);
         scrollPane1.setViewportView(message);
-        messageMainPane = new JPanel();
-        messageMainPane.setLayout(new BorderLayout(0, 0));
-        panel.add(messageMainPane, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(250, 300), new Dimension(250, 300), new Dimension(250, 300), 0, false));
     }
 
     /**

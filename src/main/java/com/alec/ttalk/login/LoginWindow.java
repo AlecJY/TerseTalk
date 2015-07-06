@@ -1,6 +1,5 @@
 package com.alec.ttalk.login;
 
-import com.alec.ttalk.common.FrameTitleBar;
 import com.alec.ttalk.TerseTalk;
 import com.alec.ttalk.struct.WindowLocation;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -31,14 +30,12 @@ public class LoginWindow extends JFrame {
     private JFrame thisFrame = this;
 
     public LoginWindow() {
-        final ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk"); // load lang
+        ResourceBundle lang = ResourceBundle.getBundle("lang/tTalk"); // load lang
         setTitle("Login - TerseTalk");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setUndecorated(true);
         setLayout(new BorderLayout());
         getRootPane().setDefaultButton(loginButton);
-        add(new FrameTitleBar(this, 2), BorderLayout.NORTH); //  add a title bar
         add(panel);
         pack();
 

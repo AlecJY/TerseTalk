@@ -2,7 +2,6 @@ package com.alec.ttalk.main;
 
 import com.alec.ttalk.TerseTalk;
 import com.alec.ttalk.about.AboutWindow;
-import com.alec.ttalk.common.FrameTitleBar;
 import com.alec.ttalk.common.XMPPControl;
 
 import javax.swing.*;
@@ -22,19 +21,13 @@ public class MainWindow extends JFrame {
         setTitle("TerseTalk");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setUndecorated(true);
         setLayout(new BorderLayout());
 
-        menu();
-
-        JPanel northPane = new JPanel(new GridLayout(2, 1));
-        northPane.add(new FrameTitleBar(this, 2));
-        northPane.add(menuBar);
+        //menu();
 
         xmppControl.startListener();
         refreshFriends();
 
-        add(northPane, BorderLayout.NORTH);
         add(friendListScrollPane);
         pack();
         setVisible(true);
@@ -58,6 +51,7 @@ public class MainWindow extends JFrame {
 
         menuBar.add(file);
         menuBar.add(help);
+        setJMenuBar(menuBar);
     }
 
     private void refreshFriends() {

@@ -1,7 +1,5 @@
 package com.alec.ttalk.about;
 
-import com.alec.ttalk.common.DialogTitleBar;
-import com.alec.ttalk.common.FrameTitleBar;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -21,10 +19,9 @@ public class AboutWindow extends JDialog {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setSize(300, 200);
         setLocationRelativeTo(parent);
-        setUndecorated(true);
         setLayout(new BorderLayout());
         setModal(true);
-        add(new DialogTitleBar(this), BorderLayout.NORTH);
+        setResizable(false);
         add(panel);
         pack();
         setVisible(true);
