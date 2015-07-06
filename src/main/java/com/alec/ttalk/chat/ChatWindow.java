@@ -43,7 +43,7 @@ public class ChatWindow extends JFrame {
     private boolean scroll = false;
 
     public ChatWindow(String jid) {
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
         setIconImage(Toolkit.getDefaultToolkit().createImage(getClass().getClassLoader().getResource("image/tTalk.png")));

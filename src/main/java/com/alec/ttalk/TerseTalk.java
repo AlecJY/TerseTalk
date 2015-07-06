@@ -7,7 +7,6 @@ import com.alec.ttalk.login.LoginWindow;
 import com.apple.eawt.AboutHandler;
 import com.apple.eawt.AppEvent;
 import com.apple.eawt.Application;
-import com.apple.laf.AquaLookAndFeel;
 
 import javax.swing.*;
 import java.util.ResourceBundle;
@@ -35,7 +34,7 @@ public class TerseTalk {
         });
 
         try {
-            UIManager.setLookAndFeel(new AquaLookAndFeel()); // set look and feel to Aqua look and feel
+            UIManager.setLookAndFeel("com.apple.laf.AquaLookAndFeel"); // set look and feel to Aqua look and feel
         } catch (Exception e) { // if set failed, exit
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

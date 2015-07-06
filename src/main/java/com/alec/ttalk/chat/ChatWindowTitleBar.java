@@ -1,6 +1,5 @@
 package com.alec.ttalk.chat;
 
-import apple.laf.AquaLookAndFeel;
 import com.alec.ttalk.TerseTalk;
 import com.alec.ttalk.struct.UserInfo;
 import org.jivesoftware.smack.packet.Presence;
