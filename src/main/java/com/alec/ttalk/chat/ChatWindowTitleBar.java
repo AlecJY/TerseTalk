@@ -23,7 +23,6 @@ public class ChatWindowTitleBar extends JPanel{
     public ChatWindowTitleBar(final JFrame parent, String jid){
         this.parent = parent;
         setLayout(new BorderLayout());
-        parent.setIconImage(Toolkit.getDefaultToolkit().createImage(getClass().getClassLoader().getResource("image/tTalk.png"))); // set application's icon
 
         JPanel infoPane = new JPanel();
         UserInfo userInfo = TerseTalk.xmppControl.getUserInfo(jid);

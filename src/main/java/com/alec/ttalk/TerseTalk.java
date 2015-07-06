@@ -25,7 +25,6 @@ public class TerseTalk {
 
         System.setProperty("apple.laf.useScreenMenuBar", "true");
         System.setProperty("com.apple.mrj.application.apple.menu.about.name", "TerseTalk");
-        terseTalk.setDockIconImage(new ImageIcon(TerseTalk.class.getClassLoader().getResource("image/tTalk.png")).getImage());
         terseTalk.setAboutHandler(new AboutHandler() {
             @Override
             public void handleAbout(AppEvent.AboutEvent aboutEvent) {

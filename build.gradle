@@ -1,5 +1,9 @@
+plugins {
+    id "edu.sc.seis.macAppBundle" version "2.1.1"
+}
+
 group 'com.alec.ttalk'
-version '1.01-SNAPSHOT'
+version '1.01-SNAPSHOT-OSX'
 
 apply plugin: 'java'
 
@@ -30,4 +34,11 @@ jar {
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
+}
+
+macAppBundle {
+    mainClassName = "com.alec.ttalk.TerseTalk"
+    icon = "tTalk.icns"
+    bundleJRE = false
+    javaProperties.put("apple.laf.useScreenMenuBar", "true")
 }

@@ -46,7 +46,6 @@ public class ChatWindow extends JFrame {
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
-        setIconImage(Toolkit.getDefaultToolkit().createImage(getClass().getClassLoader().getResource("image/tTalk.png")));
         getRootPane().setDefaultButton(sendButton);
 
         message.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "doNothing");
@@ -100,7 +99,7 @@ public class ChatWindow extends JFrame {
         if (!message.getText().equals("")) {
             scroll = true;
             xmppControl.sendMessage(jid, message.getText());
-            messageString = messageString + "<font color=\"#66B3FF\">You: </font>" + message.getText() + "<br/>";
+            messageString = messageString + "<font color=\"#013ADF\">You: </font>" + message.getText() + "<br/>";
             messageArea.setText(messageString + "</html>");
             messagePane.revalidate();
             message.setText(null);
@@ -109,7 +108,7 @@ public class ChatWindow extends JFrame {
 
     public void addMessage(String message) {
         scroll = true;
-        messageString = messageString + "<font color=\"#B15BFF\">" + info.name + ": </font>" + message + "<br/>";
+        messageString = messageString + "<font color=\"#DF01D7\">" + info.name + ": </font>" + message + "<br/>";
         messageArea.setText(messageString + "</html>");
         messageScrollPane.revalidate();
         scroll = true;
@@ -130,7 +129,7 @@ public class ChatWindow extends JFrame {
         scroll = true;
         if (isTyping == false) {
             isTyping = true;
-            messageArea.setText(messageString + "<font color=\"#EAC100\">" + info.name + lang.getString("ChatWindow.typing") + "</font></html>");
+            messageArea.setText(messageString + "<font color=\"#31AB70\">" + info.name + lang.getString("ChatWindow.typing") + "</font></html>");
         } else {
             isTyping = false;
             messageArea.setText(messageString + "</html>");
